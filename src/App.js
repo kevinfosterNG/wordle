@@ -4,21 +4,16 @@ import WordList from './wordle-words.json';
 import './App.css';
 import Board from './components/Board'
 
-const WORDLE_LIST_API_URL = 'https://api.frontendexpert.io/api/fe/wordle-words';
-
 export default function App() {
   const [solution, setSolution] = useState('');
-  useEffect(() => {
-    const fetchWord = async () => {
-      //const response = await fetch(WORDLE_LIST_API_URL);
-      const words = WordList;
-      //const words = await response.json();
+  function fetchWord() {
+    const words = WordList;
       const randomWord = words[Math.floor(Math.random() * words.length)];
       setSolution(randomWord);
-    };
-
+  }
+  useEffect(() => {
     fetchWord();
-  }, [solution]);
+  }, []);
 
   const [ guesses, setGuesses] = useState([]);
   const addGuess = (word) => {
@@ -34,15 +29,12 @@ export default function App() {
     var _guessField = document.getElementById('new_guess');
     var _guessForm =  document.getElementById('guess_form');
     var _guess = _guessField.value.toUpperCase()
-    //console.log('guess:', new_guess);
-    //var _guess = document.querySelectorAll('input[name=NewGuess]')[0].valueCRANE
-    //console.log(_guessField);
-    //console.log(_guessField.value.toUpperCase());
     if (
       IsCorrectLength(_guess) 
       //&& IsNotLastGuess(guesses)
     )
     {
+      console.log("Guess #" + (guesses.length));
       //push the guess to the list
       addGuess(_guess);
       _guessField.value="";
@@ -53,8 +45,10 @@ export default function App() {
         _guessForm.type="hidden";
       }
       else if (!IsNotLastGuess(guesses)) {
-        //_guessField.type="hidden";
+        _guessField.type="hidden";
         _guessForm.type="hidden";
+        var _answer = document.getElementById('answer');
+        _answer.innerHTML="Answer: " + solution;
       }
     }
   }
@@ -65,6 +59,9 @@ export default function App() {
   }
   function IsNotLastGuess(guesses)
   {
+    //if (guesses.length<5)
+      //console.log(5-guesses.length + " more guesses...");
+    
     return (guesses.length<5);
   }
   function IsCorrectAnswer(word1, word2)
@@ -76,11 +73,15 @@ export default function App() {
     //guesses=[];
     setGuesses([]);
     setSolution('');
+    fetchWord();
+    var _answer = document.getElementById('answer');
+    _answer.innerHTML="";
     var _guessField = document.getElementById('new_guess');
     var _guessForm = document.getElementById('guess_form');
     _guessForm.type="";
     _guessField.type="";
     _guessField.value="";
+
   }
   
   return (
@@ -91,7 +92,6 @@ export default function App() {
           <div>
             Inspired by <a href="https://www.youtube.com/watch?v=5xf4_Kx7azg">This video</a>
           </div>
-          <div>{WORDLE_LIST_API_URL}</div>
           <button onClick={NewGame} >New Game</button>
         </header>
         <div className="content">
@@ -103,7 +103,7 @@ export default function App() {
         </div>
         
         <footer className="footer">
-          
+          <div id="answer"></div>
         </footer>
         <br/>
         

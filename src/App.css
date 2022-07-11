@@ -1,0 +1,40 @@
+body {
+  text-align: center;
+  background-color: #eee;
+
+	margin: 0;
+}
+
+canvas {
+	cursor: crosshair;
+	display: block;
+  border: #aaa;
+  
+}
+.header-title {
+  font-weight: 600;
+  font-size: large;
+}
+.board {
+  background-color: white;
+}
+
+.square {
+  outline: 2px solid darkblue;
+  width: 36px;
+  height: 36px;
+  outline-width: medium;
+  margin: 4px;
+}
+.square-wrong {
+  background-color: darkgrey;
+}
+.square-correct {
+  background-color: lightgreen;
+}
+.square-nearby {
+  background-color: yellow;
+}
+.square-empty {
+  background-color: white;
+}

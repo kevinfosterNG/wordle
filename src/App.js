@@ -3,6 +3,7 @@ import {BrowserRouter as Router} from "react-router-dom";
 import WordList from './wordle-words.json';
 import './App.css';
 import Board from './components/Board'
+import Keyboard from './components/Keyboard'
 
 export default function App() {
   const [solution, setSolution] = useState('');
@@ -100,10 +101,12 @@ export default function App() {
             <input type="text" id="new_guess" name="NewGuess"  />
           </form>
           <Board data={guesses} solution={solution}  />
+          <div id="answer"></div>
         </div>
         
         <footer className="footer">
-          <div id="answer"></div>
+          
+          <Keyboard guesses={guesses} solution={solution} />
         </footer>
         <br/>
         

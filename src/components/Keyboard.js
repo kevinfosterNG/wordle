@@ -1,50 +1,111 @@
 import App from "../App";
+import {useState, useEffect} from "react";
+
+function changeColors(keyColor, guess, solution) {
+    //console.log("changeColors() started...");
+
+    if (guess !== undefined && guess !== "")
+    {
+        for (let i = 0; i < 5; i++) {
+            let c = guess.charAt(i).toUpperCase();
+            console.log(c);
+
+            //var index = keyColor.index(c);
+            console.log(keyColor[c] + '->' + keyColor[c].value);
+
+            if (solution.charAt(i) === c)
+                keyColor[c] = "square-correct";
+            else if (!solution.includes(c))
+                keyColor[c] = "square-wrong";
+            else if (solution.includes(c))
+            keyColor[c] = "square-nearby";
+        }
+    }
+    else {
+        console.log('resetting...');
+        //why doesn't this work?
+        //keyColor=blankKeyboard;
+
+        //hacky workaround to reset the keybaord...
+        for (let i = 0; i < 26; i++) {
+            var c = String.fromCharCode(65 + i); //start at A loop to Z
+            keyColor[c] = "";
+        }
+    }
+    //console.log("changeColors() completed...");
+}
+
+const blankKeyboard = {
+    A : "",
+    B : "",
+    C : "",
+    D : "",
+    E : "",
+    F : "",
+    G : "",
+    H : "",
+    I : "",
+    J : "",
+    K : "",
+    L : "",
+    M : "",
+    N : "",
+    O : "",
+    P : "",
+    Q : "",
+    R : "",
+    S : "",
+    T : "",
+    U : "",
+    V : "",
+    W : "",
+    X : "",
+    Y : "",
+    Z : ""
+};
 
 function Keyboard(props) {
-    var last_guess = "     ";
-    if (props.guesses !==undefined)
-        last_guess = props.guesses[props.guesses.length-1];
+    var last_guess = props.newguess;
+    //console.log( last_guess);
 
-    console.log("Last guess: " + last_guess);
-    var guessed_letters = CheckGuesses(props.guesses);
-    console.log("guessed letters: " + guessed_letters);
+    const [keyColor, setKeyColor] = useState(blankKeyboard);
+    
+    changeColors(keyColor, last_guess, props.solution);
 
     return (
         <div className="keyboard" >
             <div className="keyboard-row">
-                <Key letter="Q" solution={props.solution} last_guess={last_guess} guesses={guessed_letters} />
-                <Key letter="W" solution={props.solution} last_guess={last_guess} guesses={guessed_letters} />
-                <Key letter="E" solution={props.solution} last_guess={last_guess} guesses={guessed_letters} />
-                <Key letter="R" solution={props.solution} last_guess={last_guess} guesses={guessed_letters} />
-                <Key letter="T" solution={props.solution} last_guess={last_guess} guesses={guessed_letters} />
-                <Key letter="Y" solution={props.solution} last_guess={last_guess} guesses={guessed_letters} />
-                <Key letter="U" solution={props.solution} last_guess={last_guess} guesses={guessed_letters} />
-                <Key letter="I" solution={props.solution} last_guess={last_guess} guesses={guessed_letters} />
-                <Key letter="O" solution={props.solution} last_guess={last_guess} guesses={guessed_letters} />
-                <Key letter="P" solution={props.solution} last_guess={last_guess} guesses={guessed_letters} />
-                
+                <Key letter="Q" class={keyColor.Q}  />
+                <Key letter="W" class={keyColor.W} />
+                <Key letter="E" class={keyColor.E} />
+                <Key letter="R" class={keyColor.R} />
+                <Key letter="T" class={keyColor.T} />
+                <Key letter="Y" class={keyColor.Y} />
+                <Key letter="U" class={keyColor.U} />
+                <Key letter="I" class={keyColor.I} />
+                <Key letter="O" class={keyColor.O} />
+                <Key letter="P" class={keyColor.P} />
             </div>
             <div className="keyboard-row">
-                <Key letter="A" solution={props.solution} last_guess={last_guess} guesses={guessed_letters} />
-                <Key letter="S" solution={props.solution} last_guess={last_guess} guesses={guessed_letters} />
-                <Key letter="D" solution={props.solution} last_guess={last_guess} guesses={guessed_letters} />
-                <Key letter="F" solution={props.solution} last_guess={last_guess} guesses={guessed_letters} />
-                <Key letter="G" solution={props.solution} last_guess={last_guess} guesses={guessed_letters} />
-                <Key letter="H" solution={props.solution} last_guess={last_guess} guesses={guessed_letters} />
-                <Key letter="J" solution={props.solution} last_guess={last_guess} guesses={guessed_letters} />
-                <Key letter="K" solution={props.solution} last_guess={last_guess} guesses={guessed_letters} />
-                <Key letter="L" solution={props.solution} last_guess={last_guess} guesses={guessed_letters} />
-                
+                <Key letter="A" class={keyColor.A} />
+                <Key letter="S" class={keyColor.S} />
+                <Key letter="D" class={keyColor.D} />
+                <Key letter="F" class={keyColor.F} />
+                <Key letter="G" class={keyColor.G} />
+                <Key letter="H" class={keyColor.H} />
+                <Key letter="J" class={keyColor.J} />
+                <Key letter="K" class={keyColor.K} />
+                <Key letter="L" class={keyColor.L} />
             </div>
             <div className="keyboard-row">
                 <Key letter={'\u23CE'} />
-                <Key letter="Z" solution={props.solution} last_guess={last_guess} guesses={guessed_letters} />
-                <Key letter="X" solution={props.solution} last_guess={last_guess} guesses={guessed_letters} />
-                <Key letter="C" solution={props.solution} last_guess={last_guess} guesses={guessed_letters} />
-                <Key letter="V" solution={props.solution} last_guess={last_guess} guesses={guessed_letters} />
-                <Key letter="B" solution={props.solution} last_guess={last_guess} guesses={guessed_letters} />
-                <Key letter="N" solution={props.solution} last_guess={last_guess} guesses={guessed_letters} />
-                <Key letter="M" solution={props.solution} last_guess={last_guess} guesses={guessed_letters} />
+                <Key letter="Z" class={keyColor.Z} />
+                <Key letter="X" class={keyColor.X} />
+                <Key letter="C" class={keyColor.C} />
+                <Key letter="V" class={keyColor.V} />
+                <Key letter="B" class={keyColor.B} />
+                <Key letter="N" class={keyColor.N} />
+                <Key letter="M" class={keyColor.M} />
                 <Key letter={'\u232B'} />
             </div>
         </div>
@@ -52,42 +113,12 @@ function Keyboard(props) {
 }
 
 function Key(props) {
-    var _class = CheckLastGuess(props.letter, props.last_guess, props.solution, props.guesses);
-    // if (props.letter == "⏎")
-    //     return <button type="submit" className={_class}>{props.letter}</button>
-    // else
-        return <button onClick={()=> PressKey(props.letter)} className={_class}>{props.letter}</button>
+    var _class = "key " + props.class;
+    return <button onClick={()=> PressKey(props.letter)} className={_class}>{props.letter}</button>
 }
 
-function CheckLastGuess(letter, last_guess, guesses, solution) {
-    if (last_guess == null || last_guess==undefined || !guesses.includes(letter)) {
-        return "key ";
-    }
-    else if (guesses.includes(letter) && !solution.includes(letter))
-        return "key square-wrong";
-    else if (guesses.includes(letter)) {
-        var guess_letter_position = last_guess.indexOf(letter);
-        console.log("Guess '"+letter+"' @ " + guess_letter_position);
-        var solution_letter_position = solution.indexOf(letter);
-        console.log("Solution '"+letter+"' @ " + solution_letter_position);
-
-        if (guess_letter_position == solution_letter_position) {
-            
-            return "key square-right";
-        }
-        else {
-            return "key square-nearby"
-        }
-    }
-}
-function CheckGuesses(guesses) {
-    var g = "";
-    g = Array.from(guesses).join('');
-    return g;
-}
 function PressKey(char) {
     var _guessField = document.getElementById('new_guess');
-    var _guessForm = document.getElementById('guess_form');
     var _guessRow = document.getElementById('editable-row');
     if (char === "⌫")
     {
@@ -103,6 +134,7 @@ function PressKey(char) {
         }
     }
     else if (char == "⏎") {
+        var _guessForm = document.getElementById('guess_form');
         _guessForm.dispatchEvent(
             new Event("submit", { cancelable: true, bubbles: true })
           );
@@ -120,6 +152,5 @@ function PressKey(char) {
         }
     }
 }
-
 
 export default Keyboard;

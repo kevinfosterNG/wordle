@@ -1,15 +1,17 @@
 body {
   text-align: center;
   background-color: #eee;
-
 	margin: 0;
 }
-
 canvas {
 	cursor: crosshair;
 	display: block;
   border: #aaa;
   
+}
+.sneakyform {
+  visibility: collapse;
+  height: 0;
 }
 .header-title {
   font-weight: 600;

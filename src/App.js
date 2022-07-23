@@ -18,9 +18,6 @@ export default function App() {
 
   const [ guesses, setGuesses] = useState([]);
   const addGuess = (word) => {
-    //console.log(guesses);
-    //console.log(guesses.length);
-    //console.log("Adding '"+word+"' to the list of guesses");
     setGuesses( arr => [...arr, `${word}`]);
   };
 
@@ -82,7 +79,6 @@ export default function App() {
     _guessForm.type="";
     _guessField.type="";
     _guessField.value="";
-
   }
   
   return (
@@ -96,7 +92,7 @@ export default function App() {
           <button onClick={NewGame} >New Game</button>
         </header>
         <div className="content">
-          <form id="guess_form"  onSubmit={handleSubmit}>
+          <form className="sneakyform" id="guess_form" onSubmit={handleSubmit}>
             <label>Guess:</label>
             <input type="text" id="new_guess" name="NewGuess"  />
           </form>
@@ -106,7 +102,7 @@ export default function App() {
         
         <footer className="footer">
           
-          <Keyboard guesses={guesses} solution={solution} />
+          <Keyboard solution={solution} newguess={(guesses === []) ? "     " : guesses[guesses.length-1]} />
         </footer>
         <br/>
         
